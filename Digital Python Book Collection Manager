@@ -1,0 +1,120 @@
+titles = []
+authors = []
+statuses = []
+
+def add_book(title, author):
+    titles.append(title)
+    authors.append(author)
+    statuses.append("Unread")
+    print(f'Book "{title}" by {author} added to your collection as Unread.')
+
+def mark_as_read(title):
+        if title in titles:
+            index = titles.index(title)
+            statuses[index] = "Read"
+            print(f'Book "{title}" marked as Read.')
+        else:
+            print(f'Book "{title}" not found in your collection.')
+
+def mark_as_unread(title):
+    if title in titles:
+        index = titles.index(title)
+        statuses[index] = "Unread"
+        print(f'Book "{title}" marked as Unread.')
+    else:
+        print(f'Book "{title}" not found in your collection.')
+
+def search_book(keyword):
+    found = False
+    keyword = keyword.lower()
+
+    for current_keyword in range(len(titles)):
+        if keyword in titles[current_keyword].lower() or keyword in authors[current_keyword].lower():
+            print(f'{current_keyword + 1}. "'
+                  f'{titles[current_keyword]}" by '
+                  f'{authors[current_keyword]} - '
+                  f'{statuses[current_keyword]}')
+            found = True
+
+    if not found:
+        print("No books found.")
+
+def list_books():
+    if not titles:
+        print("Your book collection is empty.")
+    else:
+        for current_title in range(len(titles)):
+            print(f'{current_title + 1}. '
+                  f'"{titles[current_title]}"'
+                  f' by {authors[current_title]}'
+                  f' - {statuses[current_title]}')
+
+def suggest_book():
+    for i in range(len(statuses)):
+        if statuses[i].lower() == "unread":
+            print(f'📚 Suggested book: "{titles[i]}" by {authors[i]}')
+            return
+    print("✅ No unread books left.")
+
+def delete_book(title):
+    if title in titles:
+        normal_index = titles.index(title)
+        removed_title = titles.pop(normal_index)
+        removed_author = authors.pop(normal_index)
+        removed_status = statuses.pop(normal_index)
+        print(f'Book "{removed_title}" by {removed_author} has been deleted.')
+    else:
+        print(f'Book "{title}" not found in your collection.')
+
+def main():
+    print("📚 Welcome to the Digital Book Collection Manager 📚\n")
+
+    while True:
+        print("\nPlease choose an option:")
+        print("1. Add a new book")
+        print("2. Mark a book as read")
+        print("3. Mark a book as unread")
+        print("4. Search for a book")
+        print("5. List all books")
+        print("6. Suggest a book to read")
+        print("7. Delete a book")
+        print("8. Exit")
+
+        choice = input("\nEnter your choice (1-8): ")
+
+        if choice == '1':
+            title = input("Enter the book title: ")
+            author = input("Enter the author's name: ")
+            add_book(title, author)
+
+        elif choice == '2':
+            title = input("Enter the title of the book to mark as read: ")
+            mark_as_read(title)
+
+        elif choice == '3':
+            title = input("Enter the title of the book to mark as unread: ")
+            mark_as_unread(title)
+
+        elif choice == '4':
+            keyword = input("Enter a keyword to search: ")
+            search_book(keyword)
+
+        elif choice == '5':
+            list_books()
+
+        elif choice == '6':
+            suggest_book()
+
+        elif choice == '7':
+            title = input("Enter the title of the book to delete: ")
+            delete_book(title)
+
+        elif choice == '8':
+            print("Goodbye! Happy reading! 📖")
+            break
+
+        else:
+            print("Invalid option. Please choose a number from 1 to 8.")
+
+if __name__ == "__main__":
+    main()
